@@ -1,0 +1,116 @@
+\chapter{Week 04}
+
+  \section{Question 01}
+
+    Given a $25W$ light bulb with $20\%$ efficiency we will have that only
+    $25W * 0.2 = 5W$ are emitted as light while the rest is emitted as
+    heat.
+
+    To compute the number of photons emitted we need to know the energy of
+    a single $500nm$ wavelength photon. In order to do that we use the
+    following steps:
+
+    \begin{align}
+      f &= \frac{c}{\lambda} = \frac{3 \cdot 10^8 \frac{m}{s}}{500 \cdot 10^{-9} m} = 6 \cdot 10^{14} \frac{1}{s} \\
+      q[500] &= hf = h \frac{c}{\lambda} = 6.63 \cdot 10^{-34}Js \cdot 6 \cdot 10^{14} \frac{1}{s} \approx 4 \cdot 10^{-19}J \\
+      N_{photons}[5W] &= \frac{5W}{4 \cdot 10^{-19}\frac{J}{photon}} = 1.25 \cdot 10^{19} \frac{photons}{s}
+    \end{align}
+
+  \section{Question 02}
+
+    To compute the radiant flux $\Phi$ for the given light bulb we use:
+    
+    \begin{align}
+      \Phi &= P = 2.4V \cdot 0.7A = 1.68W
+    \end{align}
+
+    To compute radiant intensity $I$ we have to compute the power emitted per unit solid angle:
+
+    \begin{align}\label{eqn:radInt}
+      I &= \frac{d\Phi}{d\omega}\frac{W}{sr} \\
+        &= \frac{\Phi}{4\pi}\frac{W}{sr}  \\
+        &= \frac{1.68}{4\pi}\frac{W}{sr}  \\
+        &= 0.1337\frac{W}{sr}
+    \end{align}
+
+    To compute radiant Exitance $M$ we have to compute the power emitted per surface unit:
+
+    \begin{align}
+      M &= \frac{d\Phi}{dA}\frac{W}{m^2}    \\
+        &= \frac{\Phi}{4\pi{}r}\frac{W}{m^2}\\
+        &= \frac{1.68}{0.1257}\frac{W}{m^2} \\
+        &= 13.369\frac{W}{m^2}
+    \end{align}
+
+    To compute the energy emitted in five minutes we just have to multiply the radiant flux (Which is in $W = \frac{J}{s}$)
+    for the time:
+
+    \begin{align}
+      E &= \Phi{}W \cdot \Delta{}t s \\
+        &= 1.68W \cdot 5min \\
+        &= 1.68W \cdot 300s \\
+        &= 504J
+    \end{align}
+
+  \section{Question 03}
+
+    To compute the Irradiance $E$ received by the pupil we have to first compute the solid angle of the pupil in
+    respect to the centre of the light bulb then, using that value, get the Energy received by the surface of the pupil
+    and then, finally, compute the Irradiance based on the Area of the pupil.
+
+    To compute the solid angle of the pupil $\omega$ we use the following equation:
+
+    \begin{align}\label{eqn:omega}
+      \omega  &= \frac{A}{r^2}sr \\
+              &= \frac{0.06^2 \cdot \pi m^2}{1 m^2} \\
+              &= 0.0113 sr
+    \end{align}
+
+    Then, we can use the value computed in equation \ref{eqn:radInt} to compute the Energy $\Phi$:
+
+    \begin{align}\label{eqn:Phi}
+      \Phi  &= I \cdot \omega W \\
+            &= 0.1337 \frac{W}{sr} \cdot 0.0113 sr \\
+            &= 0.0015 W
+    \end{align}
+
+    Finally we can compute the Irradiance $E$:
+
+    \begin{align}\label{eqn:Ecomp}
+      E &= \frac{\Phi}{A}\frac{W}{m^2} \\
+        &= \frac{0.0015W}{0.0113m^2} \\
+        &= 0.1327\frac{W}{m^2}
+    \end{align}
+
+  \section{Question 04}
+
+    To compute the Irradiance Intensity at the table we have to first compute the Radient Intensity $I$ of the light source, as
+    we did in \ref{eqn:radInt}:
+
+    \begin{align}
+      I &= \frac{d\Phi}{d\omega}\frac{W}{sr} \\
+        &= \frac{\Phi}{4\pi} \\
+        &= \frac{200W * 0.2}{4\pi} \\
+        &= 3.183 \frac{W}{sr}
+    \end{align}
+
+    And now, using this and the formulae \ref{eqn:omega} \ref{eqn:Phi} and \ref{eqn:Ecomp}, we can compute the Irradiance at distance
+    $r = 2m$:
+
+    \begin{align}
+      E &= \frac{\Phi}{A}\frac{W}{m^2}  \\
+        &= \frac{\frac{I}{\omega}}{A}\frac{W}{m^2}  \\
+        &= \frac{\frac{I}{\frac{A}{r^2}}}{A}\frac{W}{m^2}  \\
+        &= \frac{I}{r^2}\frac{W}{m^2}  \\
+        &= \frac{3.183\frac{W}{sr}}{4m^2} \\
+        &= 0.7958\frac{W}{m^2}
+    \end{align}
+
+    Since light with wavelength of $\lambda = 650nm$ has an efficiency value of $0.1$ then we can use the ``Radiometric to Photometric'' equation
+    to compute the Illuminance at the table:
+
+    \begin{align}
+      E_{photo} &= E_{radio} \cdot 685 \cdot V(\lambda) \\
+                &= 0.7958 \cdot 685 \cdot 0.1 \\
+                &= 54.51\frac{L}{m^2}
+    \end{align}
