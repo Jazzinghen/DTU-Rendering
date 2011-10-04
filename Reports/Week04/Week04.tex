@@ -97,7 +97,7 @@
     And now, using this and the formulae \ref{eqn:omega} \ref{eqn:Phi} and \ref{eqn:Ecomp}, we can compute the Irradiance at distance
     $r = 2m$:
 
-    \begin{align}
+    \begin{align}\label{eqn:Ered}
       E &= \frac{\Phi}{A}\frac{W}{m^2}  \\
         &= \frac{\frac{I}{\omega}}{A}\frac{W}{m^2}  \\
         &= \frac{\frac{I}{\frac{A}{r^2}}}{A}\frac{W}{m^2}  \\
@@ -114,3 +114,41 @@
                 &= 0.7958 \cdot 685 \cdot 0.1 \\
                 &= 54.51\frac{L}{m^2}
     \end{align}
+
+  \section{Question 05}
+    
+    When we reach the point in wich both sides are equally illuminated it means that we have the same Irradiance $E_s$ and $E_x$ on both sides.
+    As we computed in equation \ref{eqn:Ered} we know that $E = \frac{I}{r^2}$. So, to compute $I_x$ we can do the following:
+
+    \begin{align}
+      E_s &= E_x \\
+      \frac{I_s}{r_{s}^2} &= \frac{I_x}{r_{x}^2}      \\
+      \frac{40cd}{0.35^2m^2} &= \frac{I_x}{0.65^2m^2} \\
+      \frac{40cd}{0.35^2m^2} \cdot 0.65^2m^2 &= I_x   \\
+      I_x &= \frac{40cd \cdot 0.4225 m^2}{0.1225m^2}  \\
+      I_x &= 137.959 cd
+    \end{align}
+
+  \section{Question 06}
+
+    To compute the radiosity (Radiant Exitance) $M$ we have to first compute the Flux $\Phi$:
+    
+    \begin{align}
+      L &= \frac{d\Phi}{dA^{\perp}d\omega}        \\
+      \Phi &= \int_{\Omega}^{}d\Phi   \\
+      \Phi &= LA\pi                   \\
+      \Phi &= 5000 \frac{W}{m^2 sr} \cdot \pi \cdot 0.01 m^2 \\
+      \Phi &= 157.08 W
+    \end{align}
+
+    While the Radiant Exitance $M$ is:
+
+    \begin{align}
+      M &= \frac{\Phi}{A}\frac{W}{m^2}  \\
+      M &= \frac{156.08 W}{0.01 m^2}    \\
+      M &= 15608 \frac{W}{m^2}
+    \end{align}
+
+  \section{Question 07}
+
+    
