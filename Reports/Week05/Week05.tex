@@ -1,0 +1,73 @@
+\chapter{Week 05}
+
+  \section {Part 01}
+
+    The result of running the initial project is shown in Figure \ref{img:Nothing}.
+
+    \image{Week05/RadiosityNothing.png}{Cornel Box Without any modification.}{0.5}{img:Nothing}
+
+  \section {Part 02}
+
+    The first step is to divide the scene into patches, as shown in Figures \ref{img:Wireframe1}
+    and \ref{img:Wireframe2}.
+    
+    \image{Week05/RadiosityCornel1.png}{Wireframe Cornel Box 1 subdivided in patches.}{0.5}{img:Wireframe1}
+    \image{Week05/RadiosityPatches.png}{Wireframe Cornel Box 2 subdivided in patches.}{0.5}{img:Wireframe2}
+
+  \section {Part 03}
+
+    After discretizing the scene we computed the radiosity for each patch using the analytical from factor, giving
+    the result shown in Figure \ref{img:Discretised}. 
+
+    \image{Week05/RadiosityDiscretizedScene.png}{Discretized Radiosity Rendering.}{0.5}{img:Discretised}
+ 
+  \section {Part 04}
+    
+    The result shown in Figure \ref{img:Discretised}, however, looks quite ``blocky'' due to the nature
+    of our discretized algorithm but smoothing the scene by interpolating the colour between vertices gives better
+    results, as shown in Figure \ref{img:Smoothed}. The result, however, doesn't have any shadow.
+
+    \image{Week05/RadiosityCornel2AnalyticMethodSmooth.png}{Nodal averaged colour scene.}{0.5}{img:Smoothed}
+    
+
+  \section {Part 05}
+    
+    Replacing the analytic form factor with the Hemicube form factor computation adds Occlusion to the scene,
+    as shown in Figure \ref{img:Hemicube}
+
+    \image{Week05/RadiosityHemicube300.png}{Cornel Box 2 Rendered by using the Hemucube Form Factor computation.}
+          {0.5}{img:Hemicube}
+    
+  \section {Part 06}
+
+    \begin{itemize}
+      \item Changing the subdivision level of light sources influences the softness of the shadows: the greater is the
+            number of patches a light source is subdivided into the softer the shadows will be. An example of this
+            is shown in Figures \ref{img:LightHigh} and \ref{img:LightLow}
+      \item When the resolution of the hemicube is getting low compared to the resolution of the patch subdivision some
+            artifacts appear, as can be observed in \ref{img:ArtifactsFuckingEverywhere}. This is due to a higher number of
+            patches skipped between samples while rendering the scene from the point of view of the hemicube. This effect
+            is even more evident in Figure \ref{img:BleedingEyes}. To solve this problem we should adapt the resolution of
+            the Hemicube to the patch subdivision size to avoid ``skipping'' patches.
+            
+            We can also observe, in all the Figures with Hemicube subdivision that the shadows are not precise near the edges of the meshes.
+            This is due to the discretization of the scene and can be fixed by increasing a lot the patch subdivision. However
+            a better solution could be to adapt the subdivision of the scene to fit these border cases, e.g. by adding verteces near the
+            boundaries between meshes. Also adapting the subdivision increasing it on places where the light gradient is strong.
+      \item The advantages of Radiosity are that global illumination comes naturally with the computations used by this technique and
+            once the ligt has been precomputed the viewer can move through the scene at interactive framerate as long as the scene
+            doesn't change.
+
+            On the other hand Radiosity is not suited to render reflection and refractions and is much slower than Raytracing,
+            which makes it inadequate for dynamic scenes.
+    \end{itemize}
+
+    \image{Week05/RadiosityHighInsanelyLightRes.png}{Cornel Box 2 Rendered by using a greater light source subdivision.}
+          {0.5}{img:LightHigh}
+    \image{Week05/RadiosityLightFuckingLowRes.png}{Cornel Box 2 Rendered by using a lower light source subdivision.}
+          {0.5}{img:LightLow}
+    \image{Week05/RadiosityHemicube10.png}{Cornel Box 2 Rendered by using a Hemicube size of 10.}
+          {0.5}{img:ArtifactsFuckingEverywhere}
+    \image{Week05/RadiosityHemicube10_Explaination.png}{Cornel Box 2 Rendered by using a very high Patch resolution and low Hemicube size.}
+          {0.5}{img:BleedingEyes}
+

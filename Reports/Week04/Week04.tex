@@ -62,24 +62,24 @@
 
     \begin{align}\label{eqn:omega}
       \omega  &= \frac{A}{r^2}sr \\
-              &= \frac{0.06^2 \cdot \pi m^2}{1 m^2} \\
-              &= 0.0113 sr
+              &= \frac{0.03^2 \cdot \pi m^2}{1 m^2} \\
+              &= 0.0028 sr
     \end{align}
 
     Then, we can use the value computed in equation \ref{eqn:radInt} to compute the Energy $\Phi$:
 
     \begin{align}\label{eqn:Phi}
       \Phi  &= I \cdot \omega W \\
-            &= 0.1337 \frac{W}{sr} \cdot 0.0113 sr \\
-            &= 0.0015 W
+            &= 0.1337 \frac{W}{sr} \cdot 0.0028 sr \\
+            &= 0.00038 W
     \end{align}
 
     Finally we can compute the Irradiance $E$:
 
     \begin{align}\label{eqn:Ecomp}
       E &= \frac{\Phi}{A}\frac{W}{m^2} \\
-        &= \frac{0.0015W}{0.0113m^2} \\
-        &= 0.1327\frac{W}{m^2}
+        &= \frac{0.00038W}{0.0028m^2} \\
+        &= 0.1344\frac{W}{m^2}
     \end{align}
 
   \section{Question 04}
@@ -151,4 +151,22 @@
 
   \section{Question 07}
 
-    
+    To compute the Radiant Exitance $M$ of that light source we have to use
+    the following equation:
+
+    \begin{align}
+      M &= \int_{0}^{2\pi}L\cos(\theta)d\omega \\
+        &= \int_{0}^{2\pi}\int_0^{\frac{\pi}{2}}L\cos(\theta)\sin(\theta)d\theta{}d\alpha \\
+        &= 2\pi\int_0^{\frac{\pi}{2}}L\cos(\theta)\sin(\theta)d\theta{} \\
+        &= 2\pi\int_0^{\frac{\pi}{2}}6000\cos^2(\theta)\sin(\theta)d\theta{} \\
+        &= 2\pi \cdot{} 2000 \frac{W}{m^2} \\
+        &= 12566.57 \frac{W}{m^2}
+    \end{align}
+
+    Now that we have the Radiant Exitance we can compute the Flux $\phi$ of the light source:
+
+    \begin{align}
+      \phi  &=  M \cdot A \\
+            &=  12566.57\frac{W}{m^2}\cdot 0.01 m^2 \\
+            &=  125.6657 W
+    \end{align}
