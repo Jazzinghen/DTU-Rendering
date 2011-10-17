@@ -14,42 +14,51 @@ using namespace optix;
 
 float3 RayCaster::compute_pixel(unsigned int x, unsigned int y) const
 {
-  float3 result = make_float3(0.0f);
+	float3 result = make_float3(0.0f);
 
-  // Use the scene and its camera
-  // to cast a ray that computes the color of the pixel at index (x, y).
-  //
-  // Input:  x, y        (pixel index)
-  //
-  // Return: Result of tracing a ray through the pixel at index (x, y).
-  //
-  // Relevant data fields that are available (see RayCaster.h and Scene.h)
-  // win_to_ip           (pixel size (width, height) in the image plane)
-  // lower_left          (lower left corner of the film in the image plane)
-  // scene               (scene with access to the functions closest_hit and any_hit)
-  // scene->get_camera() (camera in the scene)
-  //
-  // Hints: (a) Use the function get_shader(...) to get the shader of the
-  //            intersected material after the ray has been traced.
-  //        (b) Use get_background(...) if the ray does not hit anything.
+	// Use the scene and its camera
+	// to cast a ray that computes the color of the pixel at index (x, y).
+	//
+	// Input:  x, y        (pixel index)
+	//
+	// Return: Result of tracing a ray through the pixel at index (x, y).
+	//
+	// Relevant data fields that are available (see RayCaster.h and Scene.h)
+	// win_to_ip           (pixel size (width, height) in the image plane)
+	// lower_left          (lower left corner of the film in the image plane)
+	// scene               (scene with access to the functions closest_hit and any_hit)
+	// scene->get_camera() (camera in the scene)
+	//
+	// Hints: (a) Use the function get_shader(...) to get the shader of the
+	//            intersected material after the ray has been traced.
+	//        (b) Use get_background(...) if the ray does not hit anything.
 
-	
-  float temp1 = win_to_ip.x;
-  Ray r = scene->get_camera()->get_ray( optix::make_float2( ((float)x)*win_to_ip.x - lower_left.x, ((float)y)*win_to_ip.y - lower_left.y  ));
-  HitInfo hit;
+	float temp1 = win_to_ip.x;
+	for (int a=0; a<subdivs; a++)
+	{ 
+		// three lines below were added instead of the fourth commented, step is already in world coordinates(distance between pixels on a plane)
+		for(int b=0; b<subdivs; b++)
+		{
+			int temp = subdivs;
+			float x_pos=(float)x*win_to_ip.x - step.x/2.0 + a*step.x/subdivs + jitter[a*subdivs + b].x;
+			float y_pos=(float)y*win_to_ip.y - step.y/2.0 + b*step.y/subdivs + jitter[a*subdivs + b].y;
+			Ray r = scene->get_camera()->get_ray( optix::make_float2( x_pos - lower_left.x, y_pos - lower_left.y  ));
+			//Ray r = scene->get_camera()->get_ray( optix::make_float2( ((float)x)*win_to_ip.x - lower_left.x, ((float)y)*win_to_ip.y - lower_left.y  ));
+			HitInfo hit;
 
-  scene->closest_hit(r,hit);
+			scene->closest_hit(r,hit);
 
-  if( hit.has_hit )
-  {
-	  result = get_shader(hit)->shade(r,hit);
-  }
-  else
-  {
-	  result = get_background();
-  }
-
-  return result;
+			if( hit.has_hit )
+			{
+				result += get_shader(hit)->shade(r,hit);
+			}
+			else
+			{
+				result += get_background();
+			}
+		 }
+	 }
+	return result/float(subdivs*subdivs);
 }
 
 float3 RayCaster::get_background(const float3& dir) const
