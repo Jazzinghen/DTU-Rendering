@@ -1,6 +1,7 @@
 #ifndef MY_GLUT_H
 #define MY_GLUT_H
 
+#include <stdlib.h>
 #if defined(__APPLE__) && defined(__MACH__)
 #include <GLUT/glut.h>
 #else

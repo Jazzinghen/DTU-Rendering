@@ -91,6 +91,13 @@ void ParticleTracer::trace_particle(const Light* light, const unsigned int caust
   // Shoot a particle from the sampled source
   Ray r;
   HitInfo hit;
+  hit.position.x = hit.position.y=hit.position.z=-4;
+  hit.trace_depth=0;
+  float3 phy;
+  if(!light->emit(r, hit, phy))
+  {
+	  return;
+  }
 
   // Forward from all specular surfaces
   while(scene->is_specular(hit.material) && hit.trace_depth < 500)
@@ -100,7 +107,11 @@ void ParticleTracer::trace_particle(const Light* light, const unsigned int caust
     case 3:
       {
         // Forward from mirror surfaces here
-        return;
+		Ray r_out;
+		HitInfo hit_out=hit;
+		if(!trace_reflected(r,hit, r_out, hit_out)) return;
+		r=r_out;
+		hit=hit_out;
       }
       break;
     case 2:
@@ -109,15 +120,28 @@ void ParticleTracer::trace_particle(const Light* light, const unsigned int caust
     case 12:
       {
         // Forward from transparent surfaces here
-        return;
+		Ray r_out;
+		HitInfo hit_out=hit;
+		float R;
+		if(!trace_refracted(r,hit, r_out, hit_out,R)) return;
+		if((rand()%1000) < R*1000)
+		{
+			//reflection required
+			if(!trace_reflected(r,hit,r_out, hit_out)) return;
+		}
+		r=r_out;
+		hit=hit_out;
+        break;
       }
       break;
     default: 
       return;
     }
+	hit.trace_depth += 1;
   }
 
   // Store in caustics map at first diffuse surface
+  caustics.store(phy,hit.position, -r.direction);
 }
 
 float3 ParticleTracer::get_diffuse(const HitInfo& hit) const

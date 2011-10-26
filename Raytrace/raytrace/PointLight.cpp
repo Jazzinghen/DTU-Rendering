@@ -7,8 +7,9 @@
 #include "mt_random.h"
 #include "PointLight.h"
 
-
 using namespace optix;
+
+
 
 bool PointLight::sample(const float3& pos, float3& dir, float3& L) const
 {
@@ -29,45 +30,42 @@ bool PointLight::sample(const float3& pos, float3& dir, float3& L) const
   //
   // Hint: Construct a shadow ray using the Ray datatype. Trace it using the
   //       pointer to the ray tracer.
+  dir = normalize(light_pos-pos);
+  //Kepler’s inverse square law
+  L = intensity / (dot(light_pos-pos,light_pos-pos));
 
-  // Ray( float3 origin_, float3 direction_, unsigned int ray_type_, float tmin_, float tmax_ = RT_DEFAULT_MAX )
-  float3 lightVec = light_pos - pos;
-  dir = normalize( lightVec );
-  //float temp = sqrt(dot(lightVec,lightVec)); 
-  Ray r( pos, normalize( lightVec ), 0, 0.01, sqrt(dot(lightVec,lightVec)) );
-  HitInfo hit;
-  tracer->trace_to_any(r,hit);
 
-  float dp = dot(hit.shading_normal,dir);
-  if( dp > 0 )
+  /// WEEK 3
+  if(shadows)
   {
-
+	  Ray r(pos, dir, 0, 0.0001, RT_DEFAULT_MAX);
+	  HitInfo info;
+	  info.trace_depth=0;
+	  return !tracer->trace_to_any(r, info);
   }
-
-  if( hit.has_hit )
-  {
-      L = optix::make_float3(0.0,0.0,0.0);
-  }
-  else
-  {
-      // Lets consider that the radiance is proportionnal to the invert
-      // of the squarred distance.
-      L = intensity / dot( lightVec, lightVec ) * 0.1; 	  
-  }
-
-  return true; 
-  return !hit.has_hit; 
+  /// END
+  return true;
 }
 
 bool PointLight::emit(Ray& r, HitInfo& hit, float3& Phi) const
 {
   // Sample ray direction and create ray
-  Ray r2(r); // TODO !
+	float3 direction;
+	do{
+		direction.x = ((rand()%1000)/500.0f)-1;
+		direction.y = ((rand()%1000)/500.0f)-1;
+		direction.z = ((rand()%1000)/500.0f)-1;
+	}while(dot(direction,direction)>1);
+
   // Trace ray
-  tracer->trace_to_any(r2,hit);
-  // If a surface was hit, compute Phi and return true
-  
-  // TODO !
-  
-  return false;
+	Ray rr(light_pos, normalize(direction),0,0.001);
+	r=rr;
+	if(tracer->trace_to_closest(r,hit))
+	{
+		hit.trace_depth++;
+		// If a surface was hit, compute Phi and return true
+		Phi = intensity * 4 * M_PIf;
+		return true;
+	}
+	return false;
 }
