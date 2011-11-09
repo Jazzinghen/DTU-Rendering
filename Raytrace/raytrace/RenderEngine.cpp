@@ -108,7 +108,7 @@ void RenderEngine::load_files(int argc, char** argv)
   else
   {
     // Insert default scene
-    scene.add_plane(make_float3(0.0f, 0.0f, 0.0f), normalize(make_float3(0.0f, 1.0f, 0.0f)), "../models/default_scene.mtl", 1, 0.2f);
+    scene.add_plane(make_float3(0.0f, 0.0f, 0.0f), normalize(make_float3(0.0f, 1.0f, 0.0f)), "../models/default_scene.mtl", 1, 0.10f);
     //scene.add_plane(make_float3(0.0f, 0.0f, 0.0f), make_float3(1.0f, 0.0f, 0.0f), "../models/default_scene.mtl", 1, 0.2f);
     scene.add_sphere(make_float3(0.0f, 0.5f, 0.0f), 0.3f, "../models/default_scene.mtl", 2);
     scene.add_triangle(make_float3(-0.2f, 0.1f, 0.9f), make_float3(0.2f, 0.1f, 0.9f), make_float3(-0.2f, 0.1f, -0.1f), "../models/default_scene.mtl", 3);

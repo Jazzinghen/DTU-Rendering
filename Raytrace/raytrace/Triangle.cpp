@@ -25,7 +25,7 @@ bool intersect_triangle(const Ray& r,
   // Note that OptiX also has an implementation, so you can get away
   // with not implementing this function. However, I recommend that
   // you implement it for completeness.
-
+  
   float3 e0 = v1 - v0;
   float3 e1 = v2 - v0;
   n = cross( e1, e0 ) ;

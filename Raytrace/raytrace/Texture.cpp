@@ -41,27 +41,64 @@ void Texture::load(GLenum target, GLuint texture)
   tex_target = target;
 }
 
+float4 sample_offset( const float4* fdata, int width, int height, const float3& texcoord, int dx, int dy)
+{
+  int tx = (int) (texcoord.x * width)+dx;
+  int ty = (int) (texcoord.y * height)+dy;
+  
+  // modulo operation 
+  if( tx < 0 )
+      tx = width + tx % width;
+  else
+      tx = tx % width;
+
+  if( ty < 0 )
+      ty = height + ty % height;
+  else
+      ty = ty % width;
+
+  if (fdata)  return fdata[ tx + ty * width ];
+
+  return make_float4( 1.0, 1.0, 0.0, 1.0 );
+}
+
 float4 Texture::sample_nearest(const float3& texcoord) const
 {
-  if(!fdata)
-    return make_float4(0.0f);
 
   // Use texcoord.x and texcoord.y as uv-coordinates to
   // look-up the nearest texel in the fdata array which holds
   // the texture in float4 format.
-
-  return make_float4(0.0f);
+  return sample_offset(&fdata[0], width, height, texcoord,0,0);
 }
 
-float4 Texture::sample_linear(const float3& texcoord) const
+float4 Texture::sample_linear(const float3& texcoordinates) const
 {
-  if(!fdata)
-    return make_float4(0.0f);
+    //return make_float4(1.0,1.0,0.0,1.0);
+  //return sample_nearest(texcoordinates);
 
+  float3 texcoord = texcoordinates;
   // Use texcoord.x and texcoord.y as uv-coordinates. Look-up 
   // the four nearest neighbors in the fdata array and use
   // bilinear interpolation to find the texture value.
-  return make_float4(0.0f);
+  float4 bottomleft = sample_offset(&fdata[0], width, height, texcoord,0,0);
+  float4 bottomright = sample_offset(&fdata[0], width, height, texcoord,1,0);
+  float4 topright = sample_offset(&fdata[0], width, height, texcoord,1,1);
+  float4 topleft = sample_offset(&fdata[0], width, height, texcoord,0,1);
+  
+  //float dx = texcoord.x*width - (float) ((int) (texcoord.x*(float)width));
+  //float dy = texcoord.y*height - (float) ((int) (texcoord.y*(float)height));
+
+  double dummy;
+  float dx = modf(texcoord.x*(float)width,&dummy);
+  float dy = modf(texcoord.y*(float)height,&dummy);
+
+  if (dx < 0.0) dx = 1.0 + dx;
+  if (dy < 0.0) dy = 1.0 + dy;
+  
+  return bottomleft * (1.0-dx)*(1.0-dy)
+      + bottomright * dx*(1.0-dy)
+      + topleft * dy*(1.0-dx)
+      + topright * dx*dy;
 }
 
 float4 Texture::look_up(unsigned int idx) const

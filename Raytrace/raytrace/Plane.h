@@ -22,11 +22,11 @@ public:
   { 
     d = -dot(origin, onb.m_normal);
   }
-
+  void getTexCoordinates( HitInfo& hit ) const;
   virtual bool intersect(const optix::Ray& r, HitInfo& hit, unsigned int prim_idx) const;
   virtual void transform(const optix::Matrix4x4& m);
   virtual optix::Aabb compute_bbox() const;
-
+  
   const optix::float3& get_origin() const { return position; }
   const optix::float3& get_normal() const { return onb.m_normal; }
   const optix::float3& get_tangent() const { return onb.m_tangent; }

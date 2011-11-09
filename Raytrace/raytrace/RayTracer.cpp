@@ -41,7 +41,7 @@ bool RayTracer::trace_refracted(const Ray& in, const HitInfo& in_hit, Ray& out, 
 	if ( HasRefraction ){
 		out_hit.trace_depth  = in_hit.trace_depth + 1;
 		//out_hit.ray_ior = in_hit.material->ior;
-		out_hit.ray_ior = tempIor;
+	out_hit.ray_ior = tempIor;
 		//out_hit.ray_ior = get_ior_out(in, in_hit, dir, normal, cosi);
 		trace_to_closest(out,out_hit);
 	}

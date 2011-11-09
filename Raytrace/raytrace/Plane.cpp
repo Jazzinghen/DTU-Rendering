@@ -8,6 +8,16 @@
 
 using namespace optix;
 
+
+void Plane::getTexCoordinates( HitInfo& hit ) const
+{
+    float3 pos = hit.position - position;
+
+    hit.texcoord = tex_scale * make_float3(dot( pos, onb.m_binormal ),dot( pos, onb.m_tangent ), 0.0);
+    
+}
+
+
 bool intersect_plane(const float3& normal, float d, const Ray& r, float& distance)
 {
     if ( dot( normal, r.direction ) == 0 ) return false;
@@ -54,6 +64,12 @@ bool Plane::intersect(const Ray& r, HitInfo& hit, unsigned int prim_idx) const
       hit.shading_normal = normalize( get_normal() );
       hit.material = &get_material();
 	  hit.position = r.origin + distance * r.direction;
+
+      if( material.has_texture )
+      {
+        getTexCoordinates( hit );
+      }
+
 	  return true;
   }
   else
