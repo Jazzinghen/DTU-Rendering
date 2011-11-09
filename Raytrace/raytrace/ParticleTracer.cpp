@@ -137,11 +137,13 @@ void ParticleTracer::trace_particle(const Light* light, const unsigned int caust
     default: 
       return;
     }
-	hit.trace_depth += 1;
+	//hit.trace_depth += 1;
   }
 
   // Store in caustics map at first diffuse surface
-  caustics.store(phy,hit.position, -r.direction);
+  if (hit.trace_depth > 0 && hit.trace_depth < 499) {
+    caustics.store(phy,hit.position, -r.direction);
+  }
 }
 
 float3 ParticleTracer::get_diffuse(const HitInfo& hit) const

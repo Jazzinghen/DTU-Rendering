@@ -62,7 +62,7 @@ bool PointLight::emit(Ray& r, HitInfo& hit, float3& Phi) const
 	r=rr;
 	if(tracer->trace_to_closest(r,hit))
 	{
-		hit.trace_depth++;
+		// hit.trace_depth++;
 		// If a surface was hit, compute Phi and return true
 		Phi = intensity * 4 * M_PIf;
 		return true;
