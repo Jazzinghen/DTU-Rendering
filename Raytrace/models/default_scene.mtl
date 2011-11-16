@@ -7,7 +7,7 @@ map_Kd grass.jpg
 
 newmtl glass
 Ka 0.0 0.0 0.0
-Kd 0.0 0.0 0.0
+Kd 0.8 1.0 0.8
 Ks 0.3 0.3 0.3
 Ns 42
 Ni 1.5
