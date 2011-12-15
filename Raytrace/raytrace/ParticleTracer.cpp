@@ -129,8 +129,12 @@ void ParticleTracer::trace_particle(const Light* light, const unsigned int caust
 			//reflection required
 			if(!trace_reflected(r,hit,r_out, hit_out)) return;
 		}
-        if (hit.material->illum > 10 && rand()%1000 < hit.dist*1000/0.6) {
-            phy *= expf(-get_transmittance(hit) * hit.dist);
+        if (hit.material->illum > 10){
+            float3 trans = expf(-get_transmittance(hit) * hit.dist);
+            float avg = (trans.x + trans.y + trans.z) * 0.333333;
+            if (rand()%1000 < avg*1000) {
+                phy *= trans / avg;
+            } else return;
         }
 		r=r_out;
 		hit=hit_out;
