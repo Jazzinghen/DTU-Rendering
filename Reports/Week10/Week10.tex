@@ -1,0 +1,16 @@
+\chapter{Week 08-09}
+  \image{Week08/CausticsNoSubs.png}{Scene rendered with Caustics and no pixel subdivision. Time required: $8.25s$;
+  number of photons: $20012$. Time required for photon tracing: $1.21s$}{0.5}{img:CausNoSub}
+  \image{Week08/Caustics2x2.png}{Scene rendered with Caustics and 2x2 pixel subdivision. Time required: $32.82s$;
+  number of photons: $20012$. Time required for photon tracing: $1.21s$}{0.5}{img:Caus2x2}
+  \image{Week08/PhotonMap.png}{Photon mapping for the previous Figures. Number of photons: $20012$. Time required for
+  photon tracing: $1.21s$}{0.5}{img:PhotonMap}
+
+  \section{Code for Point Light}
+    \lstinputlisting[language=C++]{Week08/PointLight.cpp}
+
+  \section{Code for Photon Caustics}
+    \lstinputlisting[language=C++]{Week08/PhotonCaustics.cpp}
+
+  \section{Code for Particle Tracing}
+    \lstinputlisting[language=C++]{Week08/ParticleTracer.cpp}

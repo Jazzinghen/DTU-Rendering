@@ -1,0 +1,30 @@
+\chapter{Week 07}
+  \image{Week07/NoSub.png}{Scene rendered with no pixel subdivision. Time required: $1s$}{0.5}{img:NoSub}
+  \image{Week07/2x2Sub.png}{Scene rendered with 2x2 pixel subdivision. Time required: $3.89s$}{0.5}{img:2x2Sub}
+  \image{Week07/3x3Sub.png}{Scene rendered with 3x3 pixel subdivision. Time required: $8.63s$}{0.5}{img:3x3Sub}
+  \image{Week07/4x4Sub.png}{Scene rendered with 4x4 pixel subdivision. Time required: $15.31s$}{0.5}{img:4x4Sub}
+  \image{Week07/5x5Sub.png}{Scene rendered with 5x5 pixel subdivision. Time required: $24.45s$}{0.5}{img:5x5Sub}
+  \image{Week07/6x6Sub.png}{Scene rendered with 6x6 pixel subdivision. Time required: $34.93s$}{0.5}{img:6x6Sub}
+
+  \section{Question 01}
+    
+    The program cathces thekeyboard input and, pasrsing it, if it gets a ``+'' or ``-'' increases or decreases the
+    variable \syntax{subdivs}.
+
+  \section{Question 02}
+
+    Each pixel on screen is divided in subpixels. In the jitter what is stored is a random position inside each of these
+    subpixels, used then to displace the various rays casted for every pixel on screen. For each pixel we have $s^2$
+    subpixels, as we store the quantity of subpixels per edge.
+
+  \section{Question 04}
+
+    \begin{itemize}
+      \item The render time multiplied by the subdivision level to the square
+      \item The higher is the subdivion level the lower is the aliasing error
+      \item The improvement becomes invisible once the subdivion reaches 3x3 subpixels (i.e. \syntax{subdivs = 3})
+      \item Any subdivision higher then 2 is not worth the time waited.
+    \end{itemize}
+
+  \section{Code for Ray Jittering}
+    \lstinputlisting[language=C++]{Week07/RayCaster.cpp}

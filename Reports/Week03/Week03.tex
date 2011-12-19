@@ -6,8 +6,6 @@
   \image{Week03/Phong.png}{Sphere with only Phong shading. Time required: $0.99s$}{0.5}{img:Phong}
   \image{Week03/Glossy.png}{Sphere with full glossy shading. Time required: $0.99s$}{0.5}{img:Glossy}
 
-  To implement the required features files were modified as shown in Listings: 
-
   \section{Code for Phong shading}
     \lstinputlisting[language=C++]{Week03/Phong.cpp}
 
@@ -16,3 +14,23 @@
   
   \section{Code for Glossy shading}
     \lstinputlisting[language=C++]{Week03/Glossy.cpp}
+
+  \section{Get\_IOR\_out}
+
+    Get IOR out is an helper function useful for when it is needed to compute the direction of a rifracted ray. IOR is
+    the Index of Refraction of a specific material (e.g. $1.52$ for glass), since, by \emph{Snell's Law}, the ratio
+    between IOR and refraction indexes is constant:
+
+    \begin{align}
+      \frac{\sin{}\theta{}_{a}}{\sin{}\theta{}_{b}} = \frac{IOR_{a}}{IOR_{b}}
+    \end{align}
+
+    The other use for IOR is to compute the quantity of reflected light in a specific point of a surface using the
+    Fresnel equations.
+
+    The function implemented in file \techname{RayTracer.cpp} is used, in case of hitting a surface, the material of said
+    surface, but if the direction of the ray is the same of the normal of the surface, then it means that the ray hitted
+    it from inside, so the IOR will be 1.0 (i.e. IOR of the air under 1 atm).
+
+    This, however, doesn't permit the interweaving of two objects, since this function cannot detect the passage from a
+    material directly to another, but only from outside a material to inside it and the other way round.
