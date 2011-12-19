@@ -129,6 +129,13 @@ void ParticleTracer::trace_particle(const Light* light, const unsigned int caust
 			//reflection required
 			if(!trace_reflected(r,hit,r_out, hit_out)) return;
 		}
+        if (hit.material->illum > 10){
+            float3 trans = expf(-get_transmittance(hit) * hit.dist);
+            float avg = (trans.x + trans.y + trans.z) * 0.333333;
+            if (rand()%1000 < avg*1000) {
+                phy *= trans / avg;
+            } else return;
+        }
 		r=r_out;
 		hit=hit_out;
         break;
@@ -154,12 +161,21 @@ float3 ParticleTracer::get_diffuse(const HitInfo& hit) const
 
 float3 ParticleTracer::get_transmittance(const HitInfo& hit) const
 {
+  float3 transmittance;
+  transmittance = make_float3(1.0f);
+
   if(hit.material)
   {
     // Compute and return the transmittance using the diffuse reflectance of the material.
     // Diffuse reflectance rho_d does not make sense for a specular material, so we can use 
     // this material property as an absorption coefficient. Since absorption has an effect
     // opposite that of reflection, using 1/rho_d-1 makes it more intuitive for the user.
+    float3 rho_d = make_float3(
+            hit.material->diffuse[0]
+            , hit.material->diffuse[1]
+            , hit.material->diffuse[2]);
+    rho_d = (1.0/rho_d) - 1;
+    transmittance = rho_d;
   }
-  return make_float3(1.0f);
+  return transmittance;
 }
