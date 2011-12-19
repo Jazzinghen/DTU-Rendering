@@ -1,0 +1,24 @@
+\chapter{Week 11}
+
+  Caustics: 5.91s
+  Caustics2x2: 23.56s
+  Building: 0.75s
+  Photons: 4770
+
+ \image{Week11/Caustics.png}{Scene rendered with coloured Caustics, no pixel subdivision. Time
+  required: $5.91s$; Photon map building time: $0.75s$; Particles in photon map: $4770$.}{0.5}{img:ColourNoSub}
+ \image{Week11/Caustics2x2.png}{Scene rendered with coloured Caustics, 2x2 pixel subdivision. Time
+  required: $5.91s$; Photon map building time: $0.75s$; Particles in photon map: $4770$.}{0.5}{img:Colour2x2}
+ \image{Week11/ColouredPhotonMap.png}{Coloured photon map for the scene. Photon map building time: $0.75s$; Particles in photon
+ map: $4770$.}{0.5}{img:ColourPhotonMap}
+
+
+  \section{Questions}
+    
+    The Fresnel equations for computing the reflectance of the class were implemented during third week as the group
+    thought it was needed at that point, so there was no difference from before about that. At this point, however, the
+    project is able to render coloured translucent materials, as it is possible to change both the colour and the IOR of
+    the material.
+
+  \section{Code for Particle Tracing}
+    \lstinputlisting[language=C++]{Week11/ParticleTracer.cpp}
