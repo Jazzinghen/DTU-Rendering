@@ -1,16 +1,50 @@
-\chapter{Week 08-09}
-  \image{Week08/CausticsNoSubs.png}{Scene rendered with Caustics and no pixel subdivision. Time required: $8.25s$;
-  number of photons: $20012$. Time required for photon tracing: $1.21s$}{0.5}{img:CausNoSub}
-  \image{Week08/Caustics2x2.png}{Scene rendered with Caustics and 2x2 pixel subdivision. Time required: $32.82s$;
-  number of photons: $20012$. Time required for photon tracing: $1.21s$}{0.5}{img:Caus2x2}
-  \image{Week08/PhotonMap.png}{Photon mapping for the previous Figures. Number of photons: $20012$. Time required for
-  photon tracing: $1.21s$}{0.5}{img:PhotonMap}
+\chapter{Week 10}
+  \image{Week10/NearestNoSub.png}{Scene rendered with Caustics, no pixel subdivision and nearest filtering. Time
+  required: $8.43s$; Texture Scaling: $0.1x$}{0.5}{img:NearNoSub}
 
-  \section{Code for Point Light}
-    \lstinputlisting[language=C++]{Week08/PointLight.cpp}
+ \image{Week10/Nearest2x2.png}{Scene rendered with Caustics, 2x2 pixel subdivision and nearest filtering. Time
+  required: $33.39s$; Texture Scaling: $0.1x$}{0.5}{img:Near2x2}
 
-  \section{Code for Photon Caustics}
-    \lstinputlisting[language=C++]{Week08/PhotonCaustics.cpp}
+ \image{Week10/BilinearNoSub.png}{Scene rendered with Caustics, no pixel subdivision and bilinear filtering. Time
+  required: $8.83s$; Texture Scaling: $0.1x$}{0.5}{img:BiNoSub}
 
-  \section{Code for Particle Tracing}
-    \lstinputlisting[language=C++]{Week08/ParticleTracer.cpp}
+ \image{Week10/Bilinear2x2.png}{Scene rendered with Caustics, 2x2 pixel subdivision and bilinearfiltering. Time
+  required: $34.84s$; Texture Scaling: $0.1x$}{0.5}{img:Bi2x2}
+
+ \image{Week10/Bilinear10x.png}{Scene rendered with Caustics, no pixel subdivision and bilinearfiltering. Time
+  required: $8.82s$; Texture Scaling: $10.0x$}{0.5}{img:10xNoSub}
+
+ \image{Week10/Bilinear10x2x2.png}{Scene rendered with Caustics, 2x2 pixel subdivision and bilinearfiltering. Time
+  required: $35.04s$; Texture Scaling: $10.0x$}{0.5}{img:10x2x2}
+
+  \section{Question 02}
+    
+    The colour looked up in the texture is used as the diffuse colour for the surface in that point instead of the
+    surface's own diffure colour. In this way we can then compute all the other effects which uses the diffuse component
+    to get the final colour.
+
+  \section{Question 06}
+
+    As can be seen in Figures \ref{img:Near2x2} and \ref{img:BiNoSub}, the difference is that in nearest with 2x2 pixel
+    subdivision the texture is still much aliased due to the fact that the engine looks up to the nearest texel, whitout
+    interpolating, so the small change of landing position given by the jittering is not enough to sample a different
+    texel of the texture.
+
+    Bilinear filtering is less aliased but has the side effect of being much more blurry.
+
+  \section{Question 07}
+    
+    Scaling texture coordinates has the effect of scaling the texture itself. If the scaling value is increased then the
+    texture is shrunk and the other way around. As can be seen in Figure \ref{img:Bi2x2}, in which the texture is scaled
+    using $0.1$ as factor, and \ref{img:10x2x2}, in which the texture is scaled using $10.0$ as factor, the higher is
+    the scaling factor, the smaller the texture will be.
+
+  \section{Random coloured pixels}
+
+    Texture lookup has some random problems and generates some random colour pixels in various positions. This is a
+    rendering problem the team did not manage to fix as the functions to load and do lookup of the texels seem correct.
+    
+    This problem happen only in one direction, however.
+
+  \section{Code for Texturing}
+    \lstinputlisting[language=C++]{Week10/Texture.cpp}
